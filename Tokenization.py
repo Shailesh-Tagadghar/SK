@@ -65,13 +65,13 @@ def main():
     }
     """
     
-    program1 = """
-    3 + 4 * 2
-    """
+    # program1 = """
+    # 3 + 4 * 2
+    # """
     print("Input Program:")
-    print(program1)
+    print(program)
     print("\nTokens:")
-    tokens = tokenize(program1)
+    tokens = tokenize(program)
     for token_type, lexeme in tokens:
         print(f"Token: {lexeme}, Type: {token_type}")
 
