@@ -25,12 +25,12 @@ def infix_to_postfix(expression):
         elif char == ')':  # Right parenthesis
             while stack and stack[-1] != '(':
                 postfix.append(stack.pop())
-                if stack and stack[-1] == '(':
+            if stack and stack[-1] == '(':
                     stack.pop()
-                elif is_operator(char):  # Operator
-                    while stack and stack[-1] != '(' and is_higher_precedence(stack[-1], char):
-                        postfix.append(stack.pop())
-                        stack.append(char)
+        elif is_operator(char):  # Operator
+            while stack and stack[-1] != '(' and is_higher_precedence(stack[-1], char):
+                postfix.append(stack.pop())
+            stack.append(char)
     
     while stack:
         postfix.append(stack.pop())
