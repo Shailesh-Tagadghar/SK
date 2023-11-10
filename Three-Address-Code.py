@@ -1,20 +1,14 @@
-# Practical 10 : Three Address Code
-
-# function to check if a character is an operator
+#3AC
 
 def is_operator(char):
     return char in "+-*/"
-
-#function to get the precedence of an operator
 
 def precedence(operator):
     if operator in "+-":
         return 1
     if operator in "*/":
-        retrun 2
+        return 2
     return 0
-
-#function to convert infix expression to postfix notation
 
 def infix_to_postfix(expression):
     postfix = []
@@ -27,30 +21,45 @@ def infix_to_postfix(expression):
             while(
                 operators
                 and is_operator(operators[-1])
-                amd precedence(operators[-1]) >= precedence(char)
+                and precedence(operators[-1]) >= precedence(char)
             ):
                 postfix.append(operators.pop())
             operators.append(char)
         elif char == "(":
-            operators append(char)
+            operators.append(char)
         elif char == ")":
             while operators and operators[-1] != "(":
                 postfix.append(operators.pop())
             operators.pop()
             
     while operators:
-        postfix.append(operatrors.pop())
+        postfix.append(operators.pop())
         
     return "".join(postfix)
-
-# functions to generate three -address code from postfix notation
-
-def generate_three_address_code_from_postfix(pofix):
-    operands  = []
+            
+def generate_3ac(postfix):
+    operands = []
     temp_count = 1
     code = []
     
     for char in postfix:
         if char.isalnum():
+            operands.append(char)
+        elif is_operator(char):
+            right_operand = operands.pop()
+            left_operand = operands.pop()
+            result = f't{temp_count}'
+            temp_count += 1
+            code.append(f'{result} = {left_operand} {char} {right_operand}')
+            operands.append(result)
             
-    
+    return code
+
+infix = "b * c + b * c / e"
+postfix = infix_to_postfix(infix)
+tac = generate_3ac(postfix)
+
+print("postfix: ", postfix)
+print("3AC:")
+for line in tac:
+    print(line)
