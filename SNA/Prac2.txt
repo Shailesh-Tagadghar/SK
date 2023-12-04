@@ -1,3 +1,10 @@
+Perform Following Tasks
+1.	View data collection forms and/or import one mode/two-mode dataset
+2.	Basic Networks matrices transformations
+
+
+
+
 !pip install networkx
 
 import pandas as pd
