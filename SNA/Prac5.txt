@@ -1,0 +1,31 @@
+Write a program to distinguish between :
+1.	Network as a Matrix
+2.	Network  as a edge list
+3.	Network as a Sociogram or network graph
+4.	Using 3 distinct networks representatives of each 
+
+
+
+!pip install networkx
+
+import networkx as nx
+import matplotlib.pyplot as plt
+
+G = nx.Graph()
+# G.add_edges_from([(1,2), (2,3), (3,1)])
+G.add_edges_from([(2,1), (3,1), (2,3), (2,4)])
+
+matrix_representation = nx.to_numpy_array(G)
+print("Network as a matrix : ")
+print(matrix_representation)
+
+edge_list_representation = nx.to_edgelist(G)
+print("\nNetwork as an edge list : ")
+print(edge_list_representation)
+
+pos = nx.spring_layout(G)
+nx.draw(G, pos, with_labels=True, font_weight='bold')
+plt.title("Network as a Sociagram")
+plt.show()
+print("Name : Shailesh Tagadghar")
+print("Roll No. 34")
