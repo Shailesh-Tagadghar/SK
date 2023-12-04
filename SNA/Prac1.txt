@@ -1,3 +1,13 @@
+Write a program to compute the following for a given a network:
+1.	Number of edges
+2.	Number of nodes
+3.	Degree of node
+4.	Node with lowest degree
+5.	Adjacency List
+6.	Matrix of the graph
+
+
+
 !pip install networkx
 
 import networkx as nx
