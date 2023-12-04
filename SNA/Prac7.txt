@@ -1,0 +1,56 @@
+Create Sociograms for:
+1.	Persons-to-Persons network
+2.	Committee-by-Committee network
+3.	Create One-Mode-Network and Two-Mode-Network for the same
+
+
+
+!pip install networkx
+
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# persons = ['Person1', 'Person2', 'Person3', 'Person4']
+# committees = ['CommitteeA','CommitteeB','CommitteeC']
+
+persons = ['Person1', 'Person2', 'Person3', 'Person4', 'Person5']
+committees = ['CommitteeA','CommitteeB','CommitteeC','CommitteeD']
+
+G = nx.Graph()
+
+#Nodes to person and committees
+G.add_nodes_from(persons, bipartite=0)
+G.add_nodes_from(committees, bipartite=1)
+
+# G.add_edges_from([('Person1', 'CommitteeA'), ('Person1', 'CommitteeB'),
+#                   ('Person2', 'CommitteeB'), ('Person3', 'CommitteeC'),
+#                   ('Person4', 'CommitteeA')])
+
+G.add_edges_from([('Person1', 'CommitteeB'), ('Person2', 'CommitteeA'),
+                  ('Person3', 'CommitteeA'), ('Person3', 'CommitteeD'),
+                  ('Person4', 'CommitteeB'), ('Person4', 'CommitteeC'),
+                  ('Person5', 'CommitteeD'), ('Person3', 'CommitteeA')])
+
+
+pos = nx.bipartite_layout(G, persons)
+nx.draw(G, pos, with_labels=True, font_weight='bold', node_color='skyblue', font_color='black', node_size=800)
+plt.title("Persons-by-Committees Bipartite Graph")
+plt.show()
+
+
+persons_graph = nx.bipartite.projected_graph(G, persons)
+
+pos_persons = nx.spring_layout(persons_graph)
+nx.draw(persons_graph, pos_persons, with_labels=True, font_weight='bold', node_color='lightcoral', font_color='black', node_size=800)
+plt.title("Persons-by-Persons Network")
+plt.show()
+
+committees_graph = nx.bipartite.projected_graph(G, committees)
+
+pos_committees = nx.spring_layout(committees_graph)
+nx.draw(committees_graph, pos_committees, with_labels=True, font_weight='bold', node_color='lightgreen', font_color='black', node_size=800)
+plt.title("Committees-by-Committees Network")
+plt.show()
+
+print("Name : Shailesh Tagadghar")
+print("Roll No. 34")
