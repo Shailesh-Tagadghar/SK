@@ -1,0 +1,42 @@
+!pip install networkx
+
+import pandas as pd
+import networkx as nx
+
+# I. View data colection forms and/or import one_mode/two-mode datasets
+
+data_collection_form = pd.DataFrame({
+    'Node1': [1,2,3,1,4],
+    'Node2': [2,3,4,5,5],
+    'Weight': [0.5,0.8,0.2,0.7,0.9]
+})
+
+print("Data Collection Form : ")
+print(data_collection_form)
+
+
+one_mode_data = pd.DataFrame({
+    'Node': [1,2,3,4],
+    'Attribute1': ['A', 'B', 'C','D'],
+    'Attribute2': [10,20,15,25]
+})
+
+print("\nOne-Mode Dataset:")
+print(one_mode_data)
+
+two_mode_data = pd.DataFrame({
+    'Node1': [1,2,3,1,4],
+    'Node2': ['A', 'B', 'C','D', 'A'],
+    'Weight': [0.5,0.8,0.2,0.7,0.9]
+})
+
+print("\nTwo-Mode Dataset:")
+print(two_mode_data)
+
+G_one_mode = nx.from_pandas_edgelist(data_collection_form, 'Node1', 'Node2', ['Weight'])
+
+B_two_mode = nx.from_pandas_edgelist(two_mode_data, 'Node1', 'Node2', ['Weight'], create_using=nx.Graph)
+
+adjacency_matrix = nx.to_numpy_array(G_one_mode)
+print("\nAdjacency Matrix : ")
+print(adjacency_matrix)
