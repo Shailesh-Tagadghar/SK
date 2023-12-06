@@ -1,0 +1,72 @@
+Prac 4 : Create a spatial database table as market that stores the market_no, market_name and
+market_shape, which consists of four different market_shapes say abc, pqr, mno and xyz. Fire the
+
+# Create Table
+create table market (mkt_no number(3) primary key,mkt_name varchar2(20), mkt_shape mdsys.sdo_geometry);
+
+#Insert Records
+
+# Rectangle 
+insert into market values(
+1,
+'abc',
+mdsys.sdo_geometry(
+2003,NULL,NULL,
+mdsys.sdo_elem_info_array(1,1003,3),
+mdsys.sdo_ordinate_array(1,1,5,7)));
+
+# Polygon 1
+insert into market values(
+2,
+'pqr',
+mdsys.sdo_geometry(
+2003,NULL,NULL,
+mdsys.sdo_elem_info_array(1,1003,1),
+mdsys.sdo_ordinate_array(5,1,8,1,8,6,5,7,5,1)));
+
+# Polygon 2
+insert into market values(
+3,
+'mno',
+mdsys.sdo_geometry(
+2003,NULL,NULL,
+mdsys.sdo_elem_info_array(1,1003,1),
+mdsys.sdo_ordinate_array(3,3,6,3,6,5,4,5,3,3)));
+
+# Circle
+insert into market values(
+4,
+'xyz',
+mdsys.sdo_geometry(
+2003,NULL,NULL,
+mdsys.sdo_elem_info_array(1,1003,4),
+mdsys.sdo_ordinate_array(8,7,10,9,8,11)));
+
+# reading all values using select statement
+select * from market;
+
+
+a) Find the topological intersection of two geometries. / To find Topological Intersection
+select sdo_geom.sdo_intersection(m1.mkt_shape, m2.mkt_shape, 0.005) 
+from market m1, market m2 where m1.mkt_name = 'abc' and m2.mkt_name = 'mno';
+
+b) Find whether two geometric figures are equivalent to each other. / To find relation between two shapes
+select sdo_geom.relate(m1.mkt_shape, 'anyinteract', m2.mkt_shape, 0.005) 
+from market m1, market m2 where m1.mkt_name = 'pqr' and m2.mkt_name = 'xyz';
+
+select sdo_geom.relate(m1.mkt_shape, 'anyinteract', m2.mkt_shape, 0.005) 
+from market m1, market m2 where m1.mkt_name = 'pqr' and m2.mkt_name = 'abc';
+
+c) Find the areas of all different locations. / to find all different areas location co-ordinates points
+select mkt_name, sdo_geom.sdo_area(mkt_shape, 0.005) from market;
+
+d) Find the area of only one location. / Find Area of ABC shape 
+select mkt_name, sdo_geom.sdo_area(mkt_shape, 0.005) from market where mkt_name = 'abc';
+
+e) Find the distance between two geometries. / Find Distance between two geometries (shapes)
+select sdo_geom.sdo_distance(m1.mkt_shape, m2.mkt_shape, 0.005) 
+from market m1, market m2 where m1.mkt_name = 'pqr' and m2.mkt_name = 'xyz';
+
+f) Is a geometry valid? / Find is this geomentry (shape) is valid
+select mkt_name, sdo_geom.validate_geometry_with_context(mkt_shape, 0.005) 
+from market where mkt_name = 'mno';
