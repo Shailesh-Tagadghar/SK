@@ -31,3 +31,35 @@ db.Employee.deleteOne({"name":"SAT"})
 db.Employee.insertOne([{"_id":01,"name":"JAT"}])
 db.Employee.insertOne([{"_id":02,"name":"AST"}])
 
+
+
+db.example.updateOne({"_id": 101}, {"$set" :{"name": "Shailesh Tagadghar"}});
+
+db.example.insertMany([{"_id":102,"name":"Anushka","age":26},{"_id":103,"name":"Abhishek","age":24},{"_id":104,"name":"Vikas","age":30}]);
+
+==>creating own _id
+db.example.insertOne({"_id":101,"name":"Shailesh","age":21});
+
+
+b. Redis
+
+Steps:
+
+1. Install WSL(Pengiun) --> go to microsoft store --> install Windows Subsystem for Linux (WSL) 
+2. Go to control panel --> programs and features --> turn on and off features --> click on (tuen on) WSL. --> turn on --> virtual machine as well
+3. go to powershell --> type wsl --> if not install --> type wsl.exe --install -d ubuntu
+4. enter username and password as --> system
+5. then it will open new windows of linux or unbuntu machine
+6. type --> sudo apt-get update
+7. type -->sudo apt-get install redis
+8. type --> sudo systemctl start redis-server
+9. type --> redis-cli
+
+system@31D-LAB6-33:~$ redis-cli
+127.0.0.1:6379> select 1
+OK
+
+127.0.0.1:6379[1]> set user:1:name "shailesh"
+OK
+127.0.0.1:6379[1]>
+
