@@ -1,0 +1,85 @@
+Prac 8 : Create collection student and department in mongodb using students database.
+Insert Sample Data 
+(At least 10 rows in student collection and 5 rows in department. 
+Make sure you use the same dept_id mentions by you in department table).
+
+# Create database students and collections student and department.
+use students
+
+db.createCollection("student")
+
+db.createCollection("department")
+
+# Insert Data
+#Department data
+db.department.insertMany([
+{"name":"Electrical Engineering","location":"Building B","depid":1},
+{"name":"Mechanical Engineering","location":"Building C","depid":2},
+{"name":"Computer Engineering","location":"Building D","depid":3},
+{"name":"Information Tech Engineering","location":"Building E","depid":4},
+{"name":"Electronic Engineering","location":"Building A","depid":5}])
+
+#Student Data
+db.students.insertMany([{"name":"Shailesh Tagadghar","age":21,"grade":"A","depid":1,"cources":["RM","ADDMS"]},
+{"name":"Abhishek Jaishwar","age":23,"grade":"B","depid":2,"cources":["Java","CNS"]},
+{"name":"Aniruddha Ambre","age":25,"grade":"C","depid":3,"cources":["Math","Python"]}])
+
+# Retrieve all students
+db.student.find()
+
+# Retrieve students with a specific grade (e.g., grade 'A')
+db.student.find({"grade": "A"})
+
+# Retrieve students older than 20 years
+db.student.find({"age": {"$gt" : 20}})
+
+# Retrieve departments with the number of students enrolled in each department (using $lookup and $size)
+db.department.aggregate([
+{
+$lookup: {
+from: "student",
+localField: "depid",
+foreignField: "depid",
+as: "students"
+}
+},
+{
+$project: {
+name: 1,
+numberOfStudents: { $size: "$students" }
+}
+}
+]);
+
+# Retrieve students sorted by age in descending order
+db.student.find().sort({age:-1})
+
+# Update a student's grade (e.g., update student with ID 'student_id_here' grade to 'B')
+db.student.updateOne({ _id: ObjectId("654dda45b478c4aaff61f8fa")}, {$set: {grade: "B"}})
+
+# Increment the age of all students by 1 year
+db.student.updateMany({},{$inc: {age:1}})
+
+# Update a department's name (e.g., update department with ID 'department_id_here' name to 'Computer Science')
+db.department.updateOne({depid:"1"}, {$set: {name: "Mechanical"}})
+
+# Add a new course to a student's enrolled courses (e.g., add 'History' to student with ID 'student_id_here')
+db.student.updateOne({ _id: ObjectId("654dda45b478c4aaff61f8f8")}, {$addToSet: {courses: "Physics"}})
+
+# Update the name and location of a department (e.g., update department with ID 'department_id_here')
+db.department.updateOne({depid:"3"}, {$set: {name: "AI/DS", location: "Building X"}})
+
+# Delete a specific student by their ID
+db.student.deleteOne({ _id: ObjectId("654dda45b478c4aaff61f901")})
+
+# Delete students with a specific grade (e.g., delete students with grade 'C')
+db.student.deleteMany({ grade: "C"})
+
+# Delete all students older than 23 years
+db.student.deleteMany({"age": {"$gt" : 23}})
+
+# Delete a specific department by its ID
+db.department.deleteOne({ depid : "1"})
+
+# Delete all students in a specific department (e.g., delete all students in department with ID 'department_id_here') 
+db.student.deleteMany({ depid : 2})
