@@ -1,0 +1,96 @@
+Prac 7 : Perform CRUD Operation on Mongo DB.
+
+#Create collection employee and department in Mongodb using company database. 
+Insert Sample Data 
+(At least 10 rows in employee collection and 5 rows in department. 
+Make sure you use the same dept_id mentions by you in department table).
+
+
+# Create database employees and collections employee and department.
+
+use employees
+
+db.createCollection("department")
+
+db.createCollection("employee")
+
+#Insert Data into both tables
+
+#Department
+db.department.insertMany([
+{"name":"IT","location":"Mumbai","depid":1},
+{"name":"CS","location":"pune""depid":2},{"name":"HR","location":"Channai""depid":3},
+{"name":"Manager","location":"Banglore""depid":4},
+{"name":"Teacher","location":"Vidyavihar""depid":5}])
+
+#Employee
+db.employee.insertMany([
+{"name":"Shailesh Tagadghar","age":21,"designation":"Web Developer","did":1},
+{"name":"Abhishek Jaiswar","age":23,"designation":"Graphic Designer","did":2},
+{"name":"Aniruddha Ambre","age":25,"designation":"Database Administator","did":3},
+{"name":"Sahil Kakade","age":23,"designation":"Sr Web Developer","did":4},
+{"name":"SAT XYZ","age":20,"designation":"Sr Web Developer","did":5}
+]);
+
+# Retrieve all employees
+db.employee.find()
+
+# Retrieve employees in a specific department (e.g., IT department)
+db.employee.find({did : 3})
+
+# Retrieve all departments
+db.department.find()
+
+# Retrieve employees older than 30 years
+db.employee.find({age: {"$gt" : 30}})
+
+# Retrieve employees sorted by age in ascending order
+db.employee.find().sort({age:1})
+
+# Retrieve employees belonging to a specific department with their department details (using $lookup)
+db.employee.aggregate([
+{
+$lookup: {
+from: "department",
+localField: "depid",
+foreignField: "depid",
+as: "department_info"
+}
+}
+])
+
+# Retrieve employees sorted by department and age
+db.employee.find().sort({age:1}, {did:1})
+
+# Increment the age of all employees by 1 year
+db.employee.updateMany({},{$inc: {age:1}})
+
+# Rename a department
+db.department.updateMany({ name: "Technical" }, { $set: { name: "IT" } })
+
+# Update an employee's information
+db.employee.updateOne({name: "Hannan"}, { $set: { age: 50 }})
+
+# Update a department's location
+db.department.updateOne({location : "Pune"}, { $set: { location: "Surat"}})
+
+# Delete a specific employee by their ID
+db.employee.deleteOne({_id: ObjectId("65430ab293dc403662e73903")})
+
+# Delete a specific department by its ID
+db.department.deleteOne({did:1})
+
+# Delete employees older than 40 years
+db.employee.deleteMany({age: {"$gt" : 40}})
+
+# Delete employees not belonging to any department (where departmentId is null)
+db.employee.deleteMany({ "depid": null })
+
+# Delete an employee
+db.employee.deleteOne({name: "Vaishnavi"})
+
+# Delete employees in a specific department
+db.employee.deleteMany({depid: 4})
+
+# Delete a department
+db.department.deleteOne({depid: "3"})
