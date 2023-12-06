@@ -1,0 +1,126 @@
+Prac 3 : Create an XML database and demonstrate 
+         insert, update and delete operations on these tables Issue queries on it.
+
+#Vertical Fragmentation : 
+
+# Create new user & grant him all privilege and then connect to this new user
+CREATE USER vijay IDENTIFIED BY vijay;
+
+grant all privilege to vijay;
+
+connect vijay
+
+# Create emp_1 table
+create table emp_1(eno varchar2(4) PRIMARY KEY,ename varchar2(10),address varchar2(50));
+
+# Insert into table emp_1
+insert into emp_1 values('&eno','&ename','&address');
+Enter value for eno: 101
+Enter value for ename: shailesh
+Enter value for address: kalyan
+
+SQL> /
+Enter value for eno: 102
+Enter value for ename: abhishek
+Enter value for address: dombivali
+
+# Commit Changes
+commit;
+
+# Open new window of SQL 
+
+connect system
+
+# Create emp_2 table
+create table emp_2(eno varchar2(4) PRIMARY KEY,email varchar2(50),salary number(7,2));
+
+# Insert into table emp_2
+insert into emp_2 values('&eno','&email','&salary');
+Enter value for eno: 101
+Enter value for email: shailesh@gmail.com
+Enter value for salary: 20000
+
+SQL> /
+Enter value for eno: 102
+Enter value for email: abhishek@gmail.com
+Enter value for salary: 15000
+
+# Commit Changes
+commit;
+
+# Create link
+create public database link "prac3_link" connect to "vijay" IDENTIFIED BY "vijay" using 'XE';
+
+# Commit Changes
+commit;
+
+# select all data using the link and current(system) user(example).
+select e1.ename,e1.address,e2.email,e2.salary from emp_1@prac3_link e1,emp_2 e2 where e1.eno=e2.eno;
+
+# To Find the salary of an employee where employee number is known.
+select e1.ename, e2.salary from emp_1@prac3_link e1, emp_2 e2 where e1.eno=e2.eno and e1.eno=5;
+
+# To Find the Email where the employee name is known
+select e2.email from emp_1@prac3_link e1, emp_2 e2 where e1.eno=e2.eno and e1.ename='Vidhi';
+
+# To Find the employee name and Email where employee number is known
+select e1.ename, e2.email from emp_1@prac1_link e1, emp_2 e2 where e1.eno=e2.eno and e1.eno=2;
+
+# To Find the employee name whose salary is =20000
+select e1.ename from emp_1@prac1_link e1, emp_2 e2 where e1.eno=e2.eno and e2.salary=20000;
+
+
+==================================================================================================================================================================
+
+
+# Horizontal Fragmentation
+
+# Create new user & grant him all privilege and then connect to this new user
+CREATE USER vijay IDENTIFIED BY vijay;
+
+grant all privilege to vijay;
+
+connect vijay
+
+# Create emp_21 table
+create table emp_21 (eno varchar2(4) PRIMARY KEY, ename varchar2(10), address varchar2(50), email varchar2(50), salary number(7,2));
+
+# Insert into table emp_21
+insert into emp_21 values ('&eno', '&ename', '&address', '&email', &salary);
+
+# Commit Changes
+commit;
+
+# Open new window of SQL 
+
+connect system
+
+# Create emp_2 table
+create table emp_22 (eno varchar2(4) PRIMARY KEY, ename varchar2(10), address varchar2(50), email varchar2(50), salary number(7,2));
+
+# Insert into table emp_22
+insert into emp_22 values ('&eno', '&ename', '&address', '&email', &salary);
+
+# Commit Changes
+commit;
+
+# Create link
+create public database link "prac2_link" connect to "vijay" IDENTIFIED BY "vijay" using 'XE';
+
+# Commit Changes
+commit;
+
+# Select all data using the link.
+select * from emp_21@prac2_link union all select * from emp_22;
+
+# To Find the salary of all employees.
+select ename, salary from emp_21@prac2_link union all select ename, salary from emp_22;
+
+# To Find the Email of all employees where salary = 20000
+select email from emp_21@prac2_link where salary=20000 union all select email from emp_22 where salary=20000;
+
+# To Find the employee name and Email where employee number is known.
+select ename, email from emp_21@prac2_link where eno=3 union all select ename, email from emp_22 where eno=3;
+
+# To Find the employee name and address where employee number is known
+select ename, address from emp_21@prac2_link where eno=8 union all select ename, address from emp_22 where eno=8;
