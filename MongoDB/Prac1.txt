@@ -2,6 +2,7 @@ Prac 1 : Create different types that include attributes. Define tables for these
          Demonstrate insert, update and delete operations on these tables. 
          Execute queries on them. 
 
+
 Queries :
 
 ## Create EmployeeType
