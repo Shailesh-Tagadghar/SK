@@ -1,0 +1,84 @@
+Prac 2 : Create an XML database and demonstrate 
+         insert, update and delete operations on these tables. 
+         Issue queries on it.
+
+Queries : 
+
+# Create table emp1 :
+Create a table employee having (dept_id :
+number, employee_spec : XMLType).The employee_spec is a schema with attributes 
+emp id, name, email, acc_no, managerEmail, dateOf Joning. 
+
+create table emp1(dept_id number(4),emp_spec XMLType);
+
+# Insert into table
+insert into emp1 values(1001,XMLType('<employees><emp id = "001"><name>Shailesh Tagadghar</name><email>Shailesh@gmail.com</email><acc_no>101</acc_no><managerEmail>Manav@gmail.com</managerEmail>
+<dateofjoining>1996-02-10</dateofjoining></emp></employees>'));
+
+insert into emp1 values(1002,XMLType('<employees><emp id = "002"><name>Abhishek</name><email>Abhishek@gmail.com</email><acc_no>102</acc_no><managerEmail>Shailesh@gmail.com</managerEmail>
+<dateofjoining>1997-04-18</dateofjoining></emp></employees>'));
+
+insert into emp1 values(1003,XMLType('<employees><emp id = "003"><name>Aniruddha</name><email>Aniruddha@gmail.com</email><acc_no>103</acc_no><managerEmail>Abhishek@gmail.com</managerEmail>
+<dateofjoining>1996-04-12</dateofjoining></emp></employees>'));
+
+insert into emp1 values(1004,XMLType('<employees><emp id = "004"><name>Karan</name><email>Karan@gmail.com</email><acc_no>104</acc_no><managerEmail>Aniruddha@gmail.com</managerEmail>
+<dateofjoining>1986-04-12</dateofjoining></emp></employees>'));
+
+insert into emp1 values(1005,XMLType('<employees><emp id = "005"><name>Ayush</name><email>Ayush@gmail.com</email><acc_no>105</acc_no><managerEmail>Karan@gmail.com</managerEmail>
+<dateofjoining>2002-01-14</dateofjoining></emp></employees>'));
+
+# Retrieve the names of employee.
+select e.emp_spec.extract('/employees/emp/name/text()').getStringVal() "names" from emp1 e;
+
+# Retrieve the acc_no of employees.
+select e.emp_spec.extract('/employees/emp/acc_no/text()').getStringVal() "acc_no" from emp1 e;
+
+# Retrieve the names, acc_no, email of employees.
+select e.emp_spec.extract('/employees/emp/name/text()').getStringVal() "names",
+e.emp_spec.extract('/employees/emp/acc_no/text()').getStringVal() "acc_no",
+e.emp_spec.extract('/employees/emp/email/text()').getStringVal() "email" from emp1 e;
+
+# Update the 3rd record from the table and display the name of an employee.
+update emp1 e set emp_spec = XMLType('<employees><emp id="002"><name>Abhi Jaiswar</name></emp></employees>') 
+where e.emp_spec.extract('/employees/emp/@id').getStringVal()='002';
+
+select e.emp_spec.extract('/employees/emp/name/text()').getStringVal() "names" from emp1 e;
+
+# Delete 4th record from the table.
+delete from emp1 e where e.emp_spec.extract('/employees/emp/@id').getStringVal()='004';
+
+
+================================================================================================
+
+
+b : Create a table students having 
+(stu_id : number, stu_fname : varchar2, stu_mname : varchar2, stu_lname : varchar2, stu_spec : XMLType). 
+The stu_spec is a schema with attributes email_id, mobile, dob, course.
+
+create table Student(stu_id number(4),stu_fname varchar2(20),stu_mname varchar2(20),stu_lname varchar2(30),stu_spec XMLType);
+
+# Insert into table
+insert into students values(101, 'Mihir', 'Anup', 'Nagda', XMLType('<students><stu><email>mihir@somaiya.edu</email><mobile>135792468</mobile><dob>2002-11-28</dob><course>MCS</course></stu></students>'));
+insert into students values(102, 'Tisha', 'Sachin', 'Shah', XMLType('<students><stu><email>tisha@somaiya.edu</email><mobile>135792468</mobile><dob>2002-10-30</dob><course>MCS</course></stu></students>'));
+insert into students values(103, 'Mandeep', 'Barinder', 'Singh', XMLType('<students><stu><email>mandeep@somaiya.edu</email><mobile>135792468</mobile><dob>2001-06-21</dob><course>MCA</course></stu></students>'));
+insert into students values(104, 'Krisha', 'Mitesh', 'Patel', XMLType('<students><stu><email>krisha@somaiya.edu</email><mobile>135792468</mobile><dob>2002-03-15</dob><course>MBA</course></stu></students>'));
+
+# Retrieve the email ids of students
+select s.stu_spec.extract('/students/stu/email/text()').getStringVal() "emails" from students s;
+
+# Retrieve the stu_id and stu_fname of all students
+select stu_id, concat(stu_fname, concat(' ', concat(stu_mname, concat(' ', stu_lname)))) as full_name from students;
+
+# Retrieve the email and course name of all students
+select s.stu_spec.extract('/students/stu/email/text()').getStringVal() "emails", 
+s.stu_spec.extract('/students/stu/course/text()').getStringVal() "courses" from students s;
+
+# Update the table to change the course name where id=1
+update students s set stu_spec=XMLType('<students><stu><course>MMCJ</course></stu></students>') where stu_id=101;
+
+select stu_id, s.stu_spec.extract('/students/stu/course/text()').getStringVal() "courses" from students s;
+
+# Delete the student where stu_id=3
+delete students where stu_id=103;
+
+select stu_id, stu_fname from students;
