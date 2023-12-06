@@ -1,0 +1,74 @@
+Prac 1 : Create different types that include attributes. Define tables for these types by adding enough tuples. 
+         Demonstrate insert, update and delete operations on these tables. 
+         Execute queries on them. 
+
+Queries :
+
+## Create EmployeeType
+create TYPE EmployeeType AS OBJECT(EmploeeID number,FirstName varchar2(50),LastName varchar2(50),Salary number);
+/
+
+# Create DepartmentType
+create TYPE DepartmentType AS OBJECT(DepartmentID number,DepartmentName varchar2(50),Location varchar2(50));
+/
+
+# CREATE TABLE Employees OF EmployeeType;
+create table Employees of EmployeeType;
+
+# CREATE TABLE Departments OF DepartmentType;
+create table Departments of DepartmentType;
+
+# Insert data into Employees Table
+insert into Employees values(EmployeeType(1,'John','Doe',50000));
+insert into Employees values(EmployeeType(2,'Alice','Smith',60000));
+insert into Employees values(EmployeeType(3,'Michal','Johnson',55000));
+insert into Employees values(EmployeeType(4,'Shail','Tagadghar',60000));
+insert into Employees values(EmployeeType(5,'Abhi','Jaiswar',52000));
+
+# Insert data into Departments Table
+insert into Departments values(DepartmentType(1,'IT','Mumbai'));
+insert into Departments values(DepartmentType(2,'CS','Pune'));
+insert into Departments values(DepartmentType(3,'HR','Goregoan'));
+insert into Departments values(DepartmentType(4,'Finance','Malad'));
+insert into Departments values(DepartmentType(5,'Accountant','Airoli'));
+
+# Retriving / Quering Employees table
+select * from Employees;
+
+# Retriving / Quering Departments table
+select * from Departments;
+
+# updating employees values
+update Employees SET Salary = 55000 where EmploeeID = 1;
+
+# delete employees values
+delete from Employees where EmploeeID = 2;
+
+# join employees and departmets tables
+select E.EmploeeID,E.FirstName,E.LastName,E.Salary,D.DepartmentName from 
+Employees E JOIN Departments D ON E.EmploeeID = D.DepartmentID;
+
+# Find Employees in a Specific Department
+select * from Employees where EmploeeID IN (select DepartmentID from Departments where DepartmentName = 'IT');
+
+# Find the Average Salary of Employees
+select AVG(Salary) AS AverageSalary from Employees;
+
+# Find the Highest Paid Employee
+select * from Employees where Salary = (select MAX(Salary) from Employees);
+
+# Count the Number of Employees in Each Department
+select D.DepartmentName,COUNT(E.EmploeeID) AS NUmberOFEmployees from 
+Employees E JOIN Departments D ON E.EmploeeID = D.DepartmentID GROUP BY D.DepartmentName;
+
+# Update Department Name for a Specific Employees
+update Departments SET DepartmentName = 'Human Resource' where DepartmentName = 'HR';
+
+# Find Employees with Salaries Above 55000
+select * from Employees where salary > 55000;
+
+# delete employee of specific department
+delete from Employees where EmploeeID IN (select DepartmentID from Departments where DepartmentName = 'Sales');
+
+# find employee name start with J
+select * from Employees where FirstName LIKE 'J%';
