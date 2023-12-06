@@ -1,0 +1,42 @@
+Prac 5 : Create a table that stores temporal data and issues queries on them.
+
+# Create a table emp_app which stores the account number, name, and valid time say, recruitment date and retirement date.
+create table emp_app(emp_id number(5)Primary KEY,emp_name varchar2(10),join_date date,retire_date date);
+
+# Insert data
+INSERT INTO emp_app VALUES (1,'Suraj',to_date('2012/02/12','yyyy-mm-dd'),to_date('2024/10/01','yyyy-mm-dd'));
+INSERT INTO emp_app VALUES (2,'Shailesh',to_date('2012/05/25','yyyy-mm-dd'),to_date('2024/05/31','yyyy-mm-dd'));
+insert into emp_app values(3, 'Sukaina', to_date('2012/06/15','yyyy-mm-dd'),to_date('2024/06/10','yyyy-mm-dd'));
+insert into emp_app values(4, 'Ved', to_date('2012/08/12','yyyy-mm-dd'),to_date('2024/08/31','yyyy-mm-dd'));
+insert into emp_app values(5, 'Rohan', to_date('2012/08/12','yyyy-mm-dd'),to_date('2024/08/31','yyyy-mm-dd'));
+
+# Find all the employees who join the company on 2/3/2001
+select * from emp_app where join_date = to_date('2001/03/02','yyyy-mm-dd');
+
+# Find all the employees who will retired on 2/3/2001
+select * from emp_app where retire_date = to_date('2001/03/02','yyyy-mm-dd');
+
+
+========================================================================================================================
+
+
+# Create a table tbl_shares, which stores the name of the company, number of shares, and price per share at transaction time.
+create table tbl_shares(name varchar2(20),no_shares number(5),price number(7,2),trans_time date);
+
+alter session set nls_date_format='HH24:MI'; 
+
+# Insert data
+insert into tbl_shares values('Oracle',20,20000,'20:14');
+insert into tbl_shares values('SQL',10,1000,'13:34');
+insert into tbl_shares values('Query',2,15000,'09:15');
+insert into tbl_shares values('ABC',56,2000,'14:21');
+insert into tbl_shares values('PQR',12,1500,'02:21');
+
+
+# Find all the names of a company whose share price is more than Rs. 1000 at 2.21 PM.
+select * from tbl_shares where trans_time='14:21' and price>1000;
+
+# Find the name of the company which has the highest share price at 2:24 PM.
+select name,price from tbl_shares where price=(select max(price) from tbl_shares where trans_time='14:24');
+
+
