@@ -1,0 +1,33 @@
+Prac 6 : Demonstrate the Storing, Accessing and Performing CRUD Operations in MongoDB.
+
+# Create database
+use EDMS
+
+# Create collection
+db.createCollection("Employee")
+
+# Insert records in the collection.
+db.Employee.insertMany([{"name":"SAT","age":21,"gender":"Male","email":"sat@gmail.com","location":"Kalyan"},
+{"name":"SAT","age":21,"gender":"Female","email":"rat@gmail.com","location":"Dombivali"}])
+
+# Display Employee Table
+db.Employee.find()
+
+# Display details of the employee whose age is 20
+db.Employee.find({"age":20})
+
+# Display details of employee using email.
+db.Employee.find({"email":"sat@gmail.com"})
+
+# Update an employee record.
+db.Employee.updateOne({"location":"Kalyan"},{$set:{"location":"Shahad"}})
+
+db.Employee.find({"location":"Shahad"})
+
+# Delete a record
+db.Employee.deleteOne({"name":"SAT"})
+
+# Assigning object id manually to a record
+db.Employee.insertOne([{"_id":01,"name":"JAT"}])
+db.Employee.insertOne([{"_id":02,"name":"AST"}])
+
