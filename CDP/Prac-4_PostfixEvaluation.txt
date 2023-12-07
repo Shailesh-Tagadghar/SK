@@ -1,0 +1,32 @@
+def evaluate_postfix(expression):
+    stack = []
+    tokens = expression.split()  # Split the input by spaces or commas
+
+    for token in tokens:
+        if token.isdigit():
+            stack.append(int(token))  # Step 1: Push numbers onto the stack.
+        elif token in "+-*/":
+            if len(stack) < 2:
+                raise ValueError("Invalid postfix expression")
+            operand2 = stack.pop()
+            operand1 = stack.pop()  # Step 2: Pop the required number of operands.
+            if token == "+":
+                result = operand1 + operand2  # Step 3: Perform the addition.
+            elif token == "-":
+                result = operand1 - operand2  # Step 3: Perform the subtraction.
+            elif token == "*":
+                result = operand1 * operand2  # Step 3: Perform the multiplication.
+            elif token == "/":
+                if operand2 == 0:
+                    raise ValueError("Division by zero")
+                result = operand1 / operand2
+            stack.append(result)  # Step 4: Push the result back onto the stack.
+        print(f"Stack after token '{token}': {stack}")
+
+    if len(stack) != 1:
+        raise ValueError("Invalid postfix expression")
+    return stack[0]  # Step 5: The result on the stack is the final result.
+# Test the postfix evaluation with the expression "23 5 * +"
+sample_expression = "23 4 5 * +"
+result = evaluate_postfix(sample_expression)
+print("Result of postfix evaluation:", result)  # Output: 120
