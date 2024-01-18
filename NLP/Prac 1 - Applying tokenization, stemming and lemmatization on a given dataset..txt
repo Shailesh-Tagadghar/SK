@@ -1,0 +1,49 @@
+Aim: Applying tokenization, stemming and lemmatization on a given dataset.
+
+pip install nltk
+
+import nltk
+import nltk.corpus
+from nltk.tokenize import word_tokenize
+
+sample = "The Natural Language Toolkit (NLTK) is a platform used for building Python programs that work with human language data for application in statistical natural language processing (NLP). It contains text processing libraries for tokenization, parsing, classification, stemming, tagging and semantic reasoning."
+
+# Apply Tokenization by passing the sample Text to word Tokenizer
+import nltk
+nltk.download('punkt')
+ 
+Sample_Tokens=word_tokenize(sample)
+Sample_Tokens
+ 
+# Getting Type and Length of the Data
+
+type(Sample_Tokens)
+
+len(Sample_Tokens)
+
+# Finding frequency of the words coming in the sample Text.
+
+from nltk.probability import FreqDist
+FDist=FreqDist(Sample_Tokens)
+FDist
+
+top5 = FDist.most_common(5)
+top5
+
+# Stemming 
+
+from nltk.stem import PorterStemmer
+pst=PorterStemmer()
+pst.stem("Giving")
+pst.stem("Buying")
+pst.stem("Studying")
+ 
+# Lemmatization
+
+import nltk
+nltk.download('wordnet')
+from nltk.stem import WordNetLemmatizer
+lemmatizer= WordNetLemmatizer()
+lemmatizer.lemmatize("goose")
+
+ 
