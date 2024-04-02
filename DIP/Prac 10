@@ -3,6 +3,8 @@ Perform the following:
 1. Image Steganography
 2. Visible Watermarking
 
+#pip install opencv-python
+
 # Image Steganography
 
 from PIL import Image
