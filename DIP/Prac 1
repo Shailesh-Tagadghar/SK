@@ -14,9 +14,7 @@ import matplotlib.pylab as pylab
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
-from scipy import misc
-from scipy import ndimage as ndi
-from scipy import signal as signal
+from scipy import misc, ndimage, signal
 from skimage import (color, data, exposure, feature, filters, img_as_float,
                      img_as_ubyte, io)
 from skimage.color import rgb2gray
