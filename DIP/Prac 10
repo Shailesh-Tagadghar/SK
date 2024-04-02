@@ -1,0 +1,107 @@
+Practical 10 :
+Perform the following:
+1. Image Steganography
+2. Visible Watermarking
+
+# Image Steganography
+
+from PIL import Image
+import numpy as np
+import cv2
+
+def encode_text_in_image(image_path, text, output_path):
+    img = Image.open("/Images/image.jpeg")
+    img = img.convert('RGBA')
+    data = np.array(img)
+
+    binary_text = ''.join(format(ord(i), '08b') for i in text)
+    binary_text += '1111111111111110'
+    if len(binary_text) > data.size:
+        raise ValueError("Text is too long to be encoded in the image")
+
+    # Encode text into image
+    data_flat = data.flatten()
+    for i in range(len(binary_text)):
+        if binary_text[i] == '0':
+            if data_flat[i] % 2 != 0:
+                data_flat[i] -= 1  # Make it even
+        else:
+            if data_flat[i] % 2 == 0:
+                data_flat[i] += 1  # Make it odd
+
+    # Reshape and save the new image
+    data = data_flat.reshape(data.shape)
+    encoded_img = Image.fromarray(data)
+    encoded_img.save(output_path)
+
+    return output_path
+
+
+def decode_text_from_image(image_path):
+    # Load the image
+    img = Image.open(image_path)
+    data = np.array(img)
+
+    # Flatten the image array and extract the LSB of each element
+    data_flat = data.flatten()
+    binary_text = ''.join(['1' if i % 2 else '0' for i in data_flat])
+
+    # Split the binary text into 8-bit chunks and convert to characters
+    chars = [binary_text[i:i+8] for i in range(0, len(binary_text), 8)]
+    text = ''.join([chr(int(c, 2)) for c in chars])
+
+    # Detect the delimiter to signify end of text
+    delimiter = text.find('\xff\xff')
+    if delimiter != -1:
+        text = text[:delimiter]
+
+    return text
+
+
+# Set the paths and text
+original_image_path = "/Images/image.jpeg"
+encoded_image_path = "encoded_image.png"
+text_to_hide = "Hello, world. We are in Class!"
+
+# Encode the text into the image
+encode_text_in_image(original_image_path, text_to_hide, encoded_image_path)
+
+# Decode the text from the image
+hidden_text = decode_text_from_image(encoded_image_path)
+print("Decoded text:", hidden_text)
+
+#############################################################################
+
+# Visible Watermarking
+
+def watermark_image(image_path, watermark_path, output_path):
+    """Embeds a visible watermark onto an image."""
+
+    # Load images
+    image = cv2.imread(image_path)
+    watermark = cv2.imread(watermark_path, cv2.IMREAD_UNCHANGED)
+
+    # Resize watermark (adjust as needed)
+    watermark_resized = cv2.resize(watermark, (int(image.shape[1] * 0.2), int(image.shape[0] * 0.2)))
+
+    # Define placement (adjust coordinates)
+    x_offset, y_offset = 10, 10
+
+    # Overlay with transparency
+    alpha = watermark_resized[:, :, 2] / 255.0  # Extract alpha channel
+    for c in range(0, 3):
+        image[y_offset:y_offset + watermark_resized.shape[0], x_offset:x_offset + watermark_resized.shape[1], c] = (
+            alpha * watermark_resized[:, :, c] +
+            (1 - alpha) * image[y_offset:y_offset + watermark_resized.shape[0], x_offset:x_offset + watermark_resized.shape[1], c]
+        )
+
+    # Save
+    cv2.imwrite(output_path, image)
+# Example usage
+image_path = "/Images/image.jpeg"
+watermark_path = "/Images/watermark.jpeg"
+output_path = "watermarked_image.jpg"
+
+watermark_image(image_path, watermark_path, output_path)
+
+print("Watermarked image saved to:", output_path)
