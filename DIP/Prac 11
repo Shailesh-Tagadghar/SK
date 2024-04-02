@@ -1,0 +1,33 @@
+Practical 11 : 
+Program for 2D Convolution in frequency domain in an input image. 
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.fft import fft2, fftshift, ifft2
+from scipy.signal import convolve2d
+from skimage import color, data, util
+
+image = color.rgb2gray(data.coffee())
+image = util.img_as_float(image)
+
+kernel = np.array([[1, 2, 1], [2, 4, 2], [1, 2, 1]])
+kernel = kernel / np.sum(kernel)
+
+fft_image = fft2(image)
+fft_kernel = fft2(kernel, s=image.shape)
+
+fft_result = fft_image * fft_kernel
+convolved_image = ifft2(fft_result).real
+direct_convolution = convolve2d(image, kernel, mode="same")
+fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+
+ax[0].imshow(image, cmap="gray")
+ax[0].set_title("Original Image")
+ax[0].axis("off")
+ax[1].imshow(convolved_image, cmap="gray")
+ax[1].set_title("Convolved Image(Frequency Domain)")
+ax[1].axis("off")
+ax[2].imshow(direct_convolution, cmap="gray")
+ax[2].set_title("Convolved Image(Spatial Domain)")
+ax[2].axis("off")
+plt.show()
