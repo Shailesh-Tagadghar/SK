@@ -1,0 +1,26 @@
+Practical 7 :
+Implement Basic Compression
+
+# Compression (use BMP and output will be JPEG)
+
+from PIL import Image
+import os
+
+bmp_file = "/Images/nature.bmp"
+bmp_img = Image.open(bmp_file)
+
+# compress the bmp image into jpeg format
+jpeg_img =bmp_img.convert("RGB")
+jpeg_file = "output.jpeg"
+jpeg_img.save(jpeg_file,"JPEG",quality=50)
+
+# print the size of both files
+bmp_size = os.path.getsize(bmp_file)
+jpeg_size = os.path.getsize(jpeg_file)
+print("Original BMP file size: ",bmp_size,"bytes")
+print("Compressed JPEG file size: ",jpeg_size,"bytes")
+
+jpeg_img.save(jpeg_file)
+
+plt.show('Original BMP image ',bmp_file)
+plt.show('Compressed JPEG image ',jpeg_file)
