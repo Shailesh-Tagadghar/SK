@@ -1,0 +1,101 @@
+Practical 4 : 
+Implement Sobel Image Detector & Canny Edge Detector using Scikit-Image
+
+import matplotlib.pylab as pylab
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+from scipy import misc, ndimage, signal
+from skimage import (color, data, exposure, feature, filters, img_as_float,
+                     img_as_ubyte, io)
+from skimage.color import rgb2gray
+from skimage.exposure import cumulative_distribution
+from skimage.filters import laplace
+from skimage.io import imread
+from skimage.morphology import (binary_closing, binary_dilation,
+                                binary_erosion, binary_opening,
+                                convex_hull_image, disk, rectangle,
+                                skeletonize)
+from skimage.restoration import (denoise_bilateral, denoise_nl_means,
+                                 estimate_sigma)
+from skimage.util import random_noise
+
+def plot_image(image, title=""):
+    pylab.title(title, size=20), pylab.imshow(image)
+    pylab.axis("off")
+
+pylab.gray()
+
+im = imread("/Images/image.jpeg")
+im = rgb2gray(im)
+pylab.figure(figsize=(15, 15))
+pylab.subplot(3, 2, 1), plot_image(im, "Original")
+edges = filters.roberts(im)
+pylab.subplot(3, 2, 2), plot_image(edges, "Roberts")
+edges = filters.scharr(im)
+pylab.subplot(3, 2, 3), plot_image(edges, "Scharr")
+edges = filters.sobel(im)
+pylab.subplot(3, 2, 4), plot_image(edges, "Sobel")
+edges = filters.prewitt(im)
+pylab.subplot(3, 2, 5), plot_image(edges, "Prewitt")
+edges = np.clip(filters.laplace(im), 0, 1)
+pylab.subplot(3, 2, 6), plot_image(edges, "laplace")
+pylab.subplots_adjust(wspace=0.1, hspace=0.1)
+pylab.show()
+
+# Sobel Image Detector with scikit-image
+
+im = imread("/Images/image.jpeg")
+im = rgb2gray(im)
+pylab.figure(figsize=(15, 15))
+pylab.subplot(2, 2, 1)
+plot_image(im, "original")
+pylab.subplot(2, 2, 2)
+edges_x = filters.sobel_h(im)
+plot_image(np.clip(edges_x, 0, 1), "sobel_x")
+pylab.subplot(2, 2, 3)
+edges_y = filters.sobel_v(im)
+plot_image(np.clip(edges_y, 0, 1), "sobel_y")
+pylab.subplot(2, 2, 4)
+edges = filters.sobel(im)
+plot_image(np.clip(edges, 0, 1), "sobel")
+pylab.subplots_adjust(wspace=0.1, hspace=0.1)
+pylab.show()
+
+# Canny Edge Detector with scikit-image
+
+image = np.zeros((128, 128), dtype=float)
+image[32:-32, 32:-32] = 1
+image = ndimage.rotate(image, 15, mode="constant")
+image = ndimage.gaussian_filter(image, 4)
+image = random_noise(image, mode="speckle", mean=0.05)
+
+edges1 = feature.canny(image)
+edges2 = feature.canny(image, sigma=3)
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(8, 3))
+
+ax[0].imshow(image, cmap="gray")
+ax[0].set_title("noisy image", fontsize=10)
+
+ax[1].imshow(edges1, cmap="gray")
+ax[1].set_title(r"Canny filter, $\sigma=1$", fontsize=10)
+
+ax[2].imshow(edges2, cmap="gray")
+ax[2].set_title(r"Canny filter, $\sigma=5$", fontsize=10)
+
+for a in ax:
+    a.axis("off")
+
+fig.tight_layout()
+plt.show()
+
+im = rgb2gray(imread("/Images/image.jpeg"))
+im[im <= 0.5] = 0
+im[im > 0.5] = 1
+pylab.gray()
+pylab.subplot(1, 3, 1), plot_image(im, "original")
+im1 = binary_erosion(im, rectangle(1, 5))
+pylab.subplot(1, 3, 2), plot_image(im1, "erosion with rectangle size(1,5)")
+im1 = binary_erosion(im, rectangle(1, 15))
+pylab.subplot(1, 3, 3), plot_image(im1, "erosion with rectangle size(1,15)")
+pylab.show()
