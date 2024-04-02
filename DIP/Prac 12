@@ -1,0 +1,93 @@
+Practical 12 : 
+Implement Lowpass Filters in Frequency Domain.
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.fft import fft2, fftshift, ifft2, ifftshift
+from skimage import color, data, util
+
+# Helper functions to create filters
+def ideal_lowpass_filter(shape, cutoff):
+    rows, cols = shape
+    center_row, center_col = rows // 2, cols // 2
+    filter = np.zeros((rows, cols))
+    for x in range(cols):
+        for y in range(rows):
+            if (x - center_col) ** 2 + (y - center_row) ** 2 < cutoff**2:
+                filter[y, x] = 1
+    return filter
+
+
+def butterworth_lowpass_filter(shape, cutoff, order):
+    rows, cols = shape
+    center_row, center_col = rows // 2, cols // 2
+    filter = np.zeros((rows, cols))
+    for x in range(cols):
+        for y in range(rows):
+            distance = np.sqrt((x - center_col) ** 2 + (y - center_row) ** 2)
+            filter[y, x] = 1 / (1 + (distance / cutoff) ** (2 * order))
+    return filter
+
+
+def gaussian_lowpass_filter(shape, cutoff):
+    rows, cols = shape
+    center_row, center_col = rows // 2, cols // 2
+    filter = np.zeros((rows, cols))
+    for x in range(cols):
+        for y in range(rows):
+            distance = np.sqrt((x - center_col) ** 2 + (y - center_row) ** 2)
+            filter[y, x] = np.exp(-(distance**2) / (2 * (cutoff**2)))
+    return filter
+
+
+# Load an example image and convert it to grayscale
+image = color.rgb2gray(data.coffee())
+image = util.img_as_float(image)
+
+# FFT of the image
+fft_image = fftshift(fft2(image))
+
+# Filter parameters
+cutoff = 50  # Cutoff frequency
+order = 2  # Order for Butterworth filter
+
+# Create filters
+ideal_filter = ideal_lowpass_filter(image.shape, cutoff)
+butterworth_filter = butterworth_lowpass_filter(image.shape, cutoff, order)
+gaussian_filter = gaussian_lowpass_filter(image.shape, cutoff)
+
+# Apply filters
+ideal_result = ifft2(ifftshift(fft_image * ideal_filter)).real
+butterworth_result = ifft2(ifftshift(fft_image * butterworth_filter)).real
+gaussian_result = ifft2(ifftshift(fft_image * gaussian_filter)).real
+
+# Plotting
+fig, ax = plt.subplots(2, 4, figsize=(20, 10))
+ax[0, 0].imshow(image, cmap="gray")
+ax[0, 0].set_title("Original Image")
+ax[0, 0].axis("off")
+
+ax[0, 1].imshow(ideal_filter, cmap="gray")
+ax[0, 1].set_title("Ideal Filter")
+ax[0, 1].axis("off")
+
+ax[0, 2].imshow(butterworth_filter, cmap="gray")
+ax[0, 2].set_title("Butterworth Filter")
+ax[0, 2].axis("off")
+ax[0, 3].imshow(gaussian_filter, cmap="gray")
+ax[0, 3].set_title("Gaussian Filter")
+ax[0, 3].axis("off")
+
+ax[1, 1].imshow(ideal_result, cmap="gray")
+ax[1, 1].set_title("Ideal Filter Result")
+ax[1, 1].axis("off")
+
+ax[1, 2].imshow(butterworth_result, cmap="gray")
+ax[1, 2].set_title("Butterworth Result")
+ax[1, 2].axis("off")
+ax[1, 3].imshow(gaussian_result, cmap="gray")
+ax[1, 3].set_title("Gaussian Result")
+ax[1, 3].axis("off")
+
+plt.tight_layout()
+plt.show()
