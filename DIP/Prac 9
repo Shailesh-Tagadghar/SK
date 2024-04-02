@@ -1,0 +1,33 @@
+Parctical 9 :
+Program for Upsampling and Downsampling of an image.
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import ndimage
+from scipy import misc
+
+def display_image(image, title):
+  plt.imshow(image, cmap = 'gray')
+  plt.title(title)
+  plt.axis('off')
+  plt.show()
+
+def upsampling_downsampling_demo(image, scale_factor):
+  upsampled_image=ndimage.zoom(image,zoom=scale_factor,order=3)
+  downsampled_image=ndimage.zoom(image,zoom=1/scale_factor,order=3)
+
+  display_image(image,'Original Image')
+  display_image(upsampled_image,f'Upsampled Image(Scale Factor:{scale_factor})')
+  display_image(downsampled_image,f'Downsampled Image(Scale Factor:{scale_factor})')
+
+  print(f"Original Image Shape: {image.shape}")
+  print(f"Upsampled Image Shape: {upsampled_image.shape}")
+  print(f"Downsampled Image Shape: {downsampled_image.shape}")
+
+def main():
+  image=misc.ascent()
+  scale_factor=2
+  upsampling_downsampling_demo(image,scale_factor)
+
+if __name__ == "__main__":
+  main()
