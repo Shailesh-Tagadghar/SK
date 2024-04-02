@@ -1,0 +1,46 @@
+Practical 6 :
+Implement Bit-Plane Slicing
+
+import matplotlib.pylab as pylab
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+from scipy import misc, ndimage, signal
+from skimage import (color, data, exposure, feature, filters, img_as_float,
+                     img_as_ubyte, io)
+from skimage.color import rgb2gray
+from skimage.exposure import cumulative_distribution
+from skimage.filters import laplace
+from skimage.io import imread
+from skimage.morphology import (binary_closing, binary_dilation,
+                                binary_erosion, binary_opening,
+                                convex_hull_image, disk, rectangle,
+                                skeletonize)
+from skimage.restoration import (denoise_bilateral, denoise_nl_means,
+                                 estimate_sigma)
+from skimage.util import random_noise
+
+
+input_file ="/Images/image.jpeg"
+input_img = Image.open(input_file)
+
+# converts image into numpy array
+input_img = input_img.convert('L')
+input_arr = np.array(input_img)
+
+# perform bit-plane slicng
+bit_planes = []
+for i in range(8):
+    bit_plane = np.bitwise_and(input_arr, 2**i)
+    bit_plane = bit_plane.astype(np.uint8)
+    bit_planes.append(bit_plane)
+
+# display the resulting images
+for i in range(8):
+    plt.subplot(2,4, i+1)
+    plt.imshow(bit_planes[i], cmap='gray')
+    plt.title("Bit Plane {}".format(i))
+    plt.xticks([])
+    plt.yticks([])
+
+plt.show()
