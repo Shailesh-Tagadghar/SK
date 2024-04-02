@@ -14,7 +14,9 @@ import matplotlib.pylab as pylab
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
-from scipy import misc, ndimage, signal
+from scipy import misc
+from scipy import ndimage as ndi
+from scipy import signal as signal
 from skimage import (color, data, exposure, feature, filters, img_as_float,
                      img_as_ubyte, io)
 from skimage.color import rgb2gray
@@ -28,7 +30,6 @@ from skimage.morphology import (binary_closing, binary_dilation,
 from skimage.restoration import (denoise_bilateral, denoise_nl_means,
                                  estimate_sigma)
 from skimage.util import random_noise
-
 
 def plot_image(image, title=""):
     pylab.title(title, size=20), pylab.imshow(image)
