@@ -1,6 +1,5 @@
 Practical 7 : Naive Bayes Approach to Review - Sentiment Analysis
 
-
 import nltk
 import random
 from nltk.classify.scikitlearn import SklearnClassifier
@@ -16,13 +15,13 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 
 # Download necessary NLTK resources
-# nltk.download("names")
-# nltk.download('stopwords')
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
+nltk.download("names")
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 # Importing the CSV file with the reviews
-data = pd.read_csv('dataset.csv')
+data = pd.read_csv('/content/File/dataset.csv')
 dataset = data[:2499]
 
 # Initialize lists to store words and documents
