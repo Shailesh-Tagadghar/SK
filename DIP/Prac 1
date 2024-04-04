@@ -6,6 +6,16 @@ Perform the following:
 4.	Contrast Stretching 
 5.	Thresholding Operations
 
+
+#pip install matplotlib
+#pip install numpy
+#pip install Pillow
+#pip install scipy
+#pip install scikit-image
+##################   Or   #################
+#pip install matplotlib numpy Pillow scipy scikit-image
+
+
 Code :
 
 import os
