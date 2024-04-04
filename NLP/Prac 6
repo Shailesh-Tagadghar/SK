@@ -1,0 +1,29 @@
+Practical 6 : Calculating Maximum Likelihood Estimation
+
+import nltk
+from nltk import FreqDist
+from nltk.corpus import reuters
+from nltk.tokenize import word_tokenize
+#download NLTK resources if not already present
+
+nltk.download('reuters')
+nltk.download('punkt')
+
+#Load the Reuters corpus
+corpus = reuters.raw()
+
+#Tokenize the corpus into words
+tokens = word_tokenize(corpus)
+
+#Calculate the frequency distribution of words
+word_freq = FreqDist(tokens)
+
+#Total number of words in the corpus
+total_words = len(tokens)
+
+#Calculate the MLE probabilities for each word
+mle_probabilities = {word : count / total_words for word, count in word_freq.items()}
+
+#Example : Display the MLE probability of a specific word
+example_word = "economy"
+print(f"MLE Probability of '{example_word}' : {mle_probabilities.get(example_word, 0)}")
