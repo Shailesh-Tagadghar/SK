@@ -1,0 +1,69 @@
+Practical 3 :
+1. Working With Spacy.
+2. Generating Unigrams, Bigrams, and Trigrams.
+
+1. Working With Spacy.
+
+import spacy 
+from spacy.matcher import Matcher
+
+# Initialize spacy word library 
+nlp = spacy.load("en_core_web_sm") 
+doc = nlp("2018 FIFA world cup : France won!!!")
+
+# print token on a specific index 
+print("Token on index 2: ", doc[2])
+
+# Print token ranging between indices 
+print("\nToken from index 2 to 5: ", doc[2:5])
+
+# Print POS using Spacy
+print("\nPOS Tagging: ")
+for token in doc:
+  print(token.i, " | ", token.text, " | ", token.pos, " | ", token.pos_)
+
+# Print the entities in the doc
+print("\nEntities: ")
+for ent in doc.ents:
+  print(ent.text, " | ", ent.label, " | ", ent.label_)
+
+# Getting all available entities in SpaCy
+print("\nAll Entities: ")
+print(nlp.get_pipe("ner").labels)
+
+# Pattern Matching
+pattern = [{"IS_DIGIT": True}, {"LOWER": "fifa"}, {"LOWER": "world"}, {"LOWER": "cup"}, {"IS_PUNCT": True}]
+matcher2 = Matcher(nlp.vocab)
+matcher2.add("fifa_pattern", [pattern])
+matcher2 = matcher2(doc)
+print()
+
+for match_id, start, end in matcher2:
+  print("Matched Pattern : ",doc[start:end])
+
+
+###############################################################################
+
+2. Generating Unigrams, Bigrams, and Trigrams.
+
+# Generating Unigrams, Bigrams, and Trigrams.
+
+from nltk import ngrams
+
+sentence = "Tony gave two $ to Peter, Bruce gave 500 € to Steve"
+print("Sentence : ",sentence)
+
+unigrams = ngrams(sentence.split(), 1)
+print("\nUnigrams: ")
+for grams in unigrams:
+  print(grams)
+
+bigrams = ngrams(sentence.split(), 2)
+print("\nBigrams: ")
+for grams in bigrams:
+  print(grams)
+
+trigrams = ngrams(sentence.split(), 3)
+print("\nTrigrams: ")
+for grams in trigrams:
+  print(grams)
