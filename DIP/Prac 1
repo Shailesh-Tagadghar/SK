@@ -12,6 +12,7 @@ Perform the following:
 #pip install Pillow
 #pip install scipy
 #pip install scikit-image
+pip install opencv-python
 ##################   Or   #################
 #pip install matplotlib numpy Pillow scipy scikit-image
 
