@@ -1,0 +1,45 @@
+Practical 2 : 
+1. Implementing POS Tagging.
+2. Implementing Named Entity Recognition.
+
+# installation : python -m spacy download en_core_web_sm
+
+# 1. Implementing POS Tagging
+
+import spacy
+
+def pos_tagging(text):
+  nlp = spacy.load("en_core_web_sm")
+  doc = nlp(text)
+  tagged = [(token.text, token.pos_) for token in doc]
+  return tagged
+
+# Example Usage
+text = """Quickly, the very happy dog barked at the mailman because it
+always loves to greet new people."""
+
+tagged_text = pos_tagging(text)
+print("Input: ", text)
+print("")
+print("Tagged Text:\n", tagged_text)
+print("")
+
+##########################################################################################################################
+
+# 2. Implementing Named Entity Recognition
+
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+text = """Alphabet inc. is the parent company of Google located in Mountain View,California whose CEO is Sundar Pichai since December 2019."""
+doc = nlp(text)
+
+# Tokens
+print("Tokens: ")
+for token in doc:
+  print(token)
+
+ # Entities 
+print("\nEntities: ")
+for ent in doc.ents:
+  print(ent.text + " | " + ent.label_ + " | " + spacy.explain(ent.label_))
