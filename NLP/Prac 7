@@ -1,0 +1,97 @@
+Practical 7 : Naive Bayes Approach to Review - Sentiment Analysis
+
+
+import nltk
+import random
+from nltk.classify.scikitlearn import SklearnClassifier
+import pickle
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from nltk.tokenize import word_tokenize
+import re
+import os
+import pandas as pd
+from nltk.corpus import names, stopwords
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+
+# Download necessary NLTK resources
+# nltk.download("names")
+# nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger')
+
+# Importing the CSV file with the reviews
+data = pd.read_csv('dataset.csv')
+dataset = data[:2499]
+
+# Initialize lists to store words and documents
+all_words = []
+documents = []
+
+# Define stopwords and allowed word types
+stop_words = set(stopwords.words('english'))
+allowed_word_types = ["J"]
+
+# Define a function to preprocess each review
+def preprocess_review(review):
+    # Remove punctuations
+    cleaned = re.sub(r'[^(a-zA-Z)\s]', '', review)
+    # Tokenize
+    tokenized = word_tokenize(cleaned)
+    # Part-of-speech tagging
+    pos_tags = nltk.pos_tag(tokenized)
+    # Remove stopwords and extract adjectives
+    adjectives = [w.lower() for w, pos in pos_tags if w.lower() not in stop_words and pos[0].lower() == 'j']
+    return adjectives
+
+# Process reviews
+for index, row in dataset.iterrows():
+    adjectives = preprocess_review(row['review'])
+    documents.append((adjectives, row['sentiment']))
+    all_words.extend(adjectives)
+
+# Create frequency distribution of words
+all_words = nltk.FreqDist(all_words)
+print("All words:", all_words)
+
+# Plot the most common words
+if all_words:
+    all_words.plot(30, cumulative=False)
+    plt.show()
+else:
+    print("No words to plot.")
+
+# Extract the most common 1000 words as features
+word_features = list(all_words.keys())
+
+# Define a function to create feature sets
+def find_features(document):
+    words = set(document)
+    features = {}
+    for w in word_features:
+        features[w] = (w in words)
+    return features if features else {'contains_no_features': True}
+
+# Create feature sets
+featuresets = [(find_features(rev), category) for (rev, category) in documents]
+
+# Shuffle the feature sets
+random.shuffle(featuresets)
+
+# Split the data into training and testing sets
+train_set, test_set = train_test_split(featuresets, test_size=0.2, random_state=42)
+
+# Train and test Naive Bayes classifier
+classifier = nltk.NaiveBayesClassifier.train(train_set)
+print("Naive Bayes Classifier accuracy:", (nltk.classify.accuracy(classifier, test_set))*100)
+
+# Train and test Multinomial Naive Bayes classifier
+MNB_clf = SklearnClassifier(MultinomialNB())
+mnb_cls = MNB_clf.train(train_set)
+print("Multinomial Naive Bayes Classifier accuracy:", (nltk.classify.accuracy(mnb_cls, test_set))*100)
+
+# Train and test Bernoulli Naive Bayes classifier
+BNB_clf = SklearnClassifier(BernoulliNB())
+bnb_cls = BNB_clf.train(train_set)
+print("Bernoulli Naive Bayes Classifier accuracy:", (nltk.classify.accuracy(bnb_cls, test_set))*100)
