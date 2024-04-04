@@ -10,36 +10,38 @@ from nltk.stem import PorterStemmer
 from nltk.probability import FreqDist
 from nltk.stem import WordNetLemmatizer
 
-
-sample="""Natural language processing (NLP) refers to the branch of computer science—and more specifically, 
-the branch of artificial intelligence or AI—concerned with giving computers the ability to understand text 
-and spoken words in much the same way human beings can."""
+sample="""Natural language processing (NLP) refers to the branch of computer science—and more specifically,the branch of artificial intelligence or AI—concerned with giving computers the ability to understand text and spoken words in much the same way human beings can."""
 
 
 
 #Apply Tokenization by passing the sample text to word tokenizer
 Sample_Tokens=word_tokenize(sample)
-Sample_Tokens
+print("Sample Tokens: \n", Sample_Tokens)
 
 #Getting type of the data
-type(Sample_Tokens)
+print("\nType of Sample Tokens: \n", type(Sample_Tokens))
 
 #Getting length of the data
-len(Sample_Tokens)
+print("\nLength of Sample Tokens: \n", len(Sample_Tokens))
+
 
 #Finding frequency of the words coming in the sample text
 FDist= FreqDist(Sample_Tokens)
-FDist
+print("\nFrequency Distribution: \n", FDist)
 
 top5=FDist.most_common(5)
-top5
+print("\nTop 5 Words: \n", top5)
 
 # Stemming
 pst=PorterStemmer()
-pst.stem("Giving")
-pst.stem("Buying")
-pst.stem("Studying")
+print("\nStemming of Words: ")
+print("Giving: ", pst.stem("Giving"))
+print("Buying: ", pst.stem("Buying"))
+print("Studying: ", pst.stem("Studying"))
+print("Going: ", pst.stem("Going"))
 
 # Lemmatization
-lemmatizer= WordNetLemmatizer()
-lemmatizer.lemmatize("goose")
+lmt = WordNetLemmatizer()
+print("\nLemmatization of Words: ")
+print("Geese: ", lmt.lemmatize("geese"))
+print("Cacti: ", lmt.lemmatize("cacti"))
