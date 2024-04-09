@@ -1,3 +1,10 @@
+#pip cmd :
+#pip install nltk
+#python -m pip install spacy
+#python -m spacy download en_core_web_sm
+#pip install scikit-learn
+
+
 Practical 1 : 
 Applying Tokenization, Stemming and Lemmatization on a given dataset.
 
