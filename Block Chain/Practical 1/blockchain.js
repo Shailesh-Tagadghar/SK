@@ -1,3 +1,5 @@
+// Creating a simple blockchain to calculate the sum of two number
+
 const c = require('crypto');
 class Block {
     constructor(i, t, n1, n2, ph = '') {
