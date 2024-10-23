@@ -1,0 +1,10 @@
+Steps : 
+
+1. Open Remix IDE
+2. Default Workspace
+3. open contracts folder
+4. create a file with file_name.Sol -- Mynew.sol
+5. Write code into this file
+6. Compile code
+7. Deploy code -- then add two numbers in ADD 
+8. Click on ADD output will be display in terminal.
