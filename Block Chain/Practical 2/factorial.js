@@ -1,4 +1,5 @@
 //check number is factorial or not
+
 const c = require('crypto')
 class Block {
     constructor(index, timeStamp, n, previousHash = '') {
