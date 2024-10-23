@@ -1,5 +1,6 @@
 // WAP to check whether the number that is given as input is Kaprekar number or not Steps
 
+
 const c = require('crypto');
 class Block {
     constructor(i, t, n1, ph = '') {
