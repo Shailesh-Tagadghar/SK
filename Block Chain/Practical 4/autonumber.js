@@ -1,5 +1,6 @@
 // create a simple block chain to store only automorphic number also secure your automorphic number by DS algorithm and also validate the block before adding it into the blockchain
 
+
 const c = require('crypto');
 const { DES } = require('crypto-js');
 class Block {
