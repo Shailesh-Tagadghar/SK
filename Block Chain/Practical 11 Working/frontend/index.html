@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Addition DApp</title>
+</head>
+
+<body>
+    <h1>Blockchain Addition DApp</h1>
+    Number 1: <input type="number" id="num1" placeholder="Enter first number" /> <br /><br /> Number 2: <input
+        type="number" id="num2" placeholder="Enter second number" /> <br />
+    <h2>Choose Operation:</h2>
+    <button onclick="addNumber()">Add</button> 
+    <button onclick="subNumber()">Sub</button>
+    <button onclick="mulNumber()">Mul</button> 
+    <button onclick="divNumber()">Div</button>
+    <h2>Result:</h2>
+    <h3>Addition: <span id="resultA"></span></h3>
+    <h3>Subtraction: <span id="resultS"></span></h3>
+    <h3>Multiplication: <span id="resultM"></span></h3>
+    <h3>Division: <span id="resultD"></span></h3>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
