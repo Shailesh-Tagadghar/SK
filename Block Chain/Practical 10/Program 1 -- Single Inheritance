@@ -1,5 +1,6 @@
 //Write a smart contract for single level Inheritance
 
+
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
