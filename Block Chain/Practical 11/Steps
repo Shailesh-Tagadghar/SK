@@ -1,0 +1,25 @@
+Practical 11:
+
+Steps: 
+
+1. Add Metamask Extension to chrome
+2. Create an account OR connect existing.
+3. Download and Install Ganache -- https://archive.trufflesuite.com/ganache/
+4. Open Ganache -- Create new Workspace
+5. Open Metamask -- Click on Network name -- Add network -- Manual Netwoork
+6. Enter details for manual network -- 
+    Network Name -- Ganache
+    New RPC URL -- open Ganache to get this URL
+    Chain ID -- 1337
+    Currency Symbol -- ETH
+7. Click on Save
+8. Open Ganache Click on any key symbol below -- copy private key
+9. Open Metamask -- click on Account -- Add new account -- Import Account -- Paste private key here.
+10. in network select -- test network -- Ganache
+11. Install necessary packages -- npm install -g truffle / npm install -g ganache / npm install lite-server --dev
+12. Create new folder in VS CODE -- Open this folder -- Terminal (cmd) -- type cmd -- truffle init
+13. In contract folder add new code -- Addition.sol 
+14. create new folder -- frontend  -- create two files -- app.js and index.html
+15. Add code into this both file
+16.
+
