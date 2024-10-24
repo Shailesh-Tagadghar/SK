@@ -1,5 +1,4 @@
-Program 2 -- write a simple auction contract where user can bid on an items when a highest user bid.
-
+//Practical 6B: Write a simple auction contract where a user can bid on an item and the highest bidder wins.
 
 
 // SPDX-License-Identifier: MIT
