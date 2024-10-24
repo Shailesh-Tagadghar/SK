@@ -1,3 +1,5 @@
+//Practical 6A: Create a smart contract for addition of two numbers.
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
