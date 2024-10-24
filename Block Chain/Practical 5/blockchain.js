@@ -1,4 +1,4 @@
-// Create a blockchain to deposit and withdraw money.
+// Create a simple blockchain to record deposit and withdrawal transactions.
 
 const c = require('crypto');
 class Block {
