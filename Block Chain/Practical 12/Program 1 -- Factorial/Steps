@@ -1,4 +1,137 @@
 //Program 1 -- Create a DApp to calculate factorial of a number
 
 Steps :
+type -- truffle init 
+
+
+1. In Contract folder -- create new file -- 
+Factorial.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.19;
+contract factorial {
+    function fact(uint n) public pure returns (uint) {
+        if (n == 0) {
+            return 1;
+        } else {
+            uint result = 1;
+            for (uint i = 1; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+    }
+}
+
+//////////////////////////////////////////////////////
+
+2. create new folder --
+frondend
+create two files -- 
+index.html
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DApp-2</title>
+  </head>
+  <body>
+    <h1>Blockchain Factorial DApp</h1>
+    Number:
+    <input type="number" id="num" placeholder="Enter Number" />
+    <br /><br />
+    <h2>Calculate Factorial:</h2>
+    <button onclick="facto()">Calculate</button>
+    <h2>Result: <span id="result"></span></h2>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+
+
+app.js
+
+const contractAddress = "0x28c0b6BA8A4690071a01609F508669892A532E88"; // Replace with your deployed contract address
+const contractABI = [
+    {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "n",
+            "type": "uint256"
+          }
+        ],
+        "name": "fact",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+      }
+]; // Use ABI from compiled contract
+let web3;
+let contract;
+window.addEventListener("load", async () => {
+  if (window.ethereum) {
+    web3 = new Web3(window.ethereum);
+    await window.ethereum.enable();
+  } else {
+    console.log("MetaMask not detected. Please install MetaMask.");
+  }
+  contract = new web3.eth.Contract(contractABI, contractAddress);
+});
+async function facto() {
+    const num = document.getElementById("num").value;
+    const accounts = await web3.eth.getAccounts();
+    console.log(num);
+    
+    // Call the contract's method
+    contract.methods.fact(num)
+      .call({ from: accounts[0] })
+      .then((result) => {
+        console.log(result);
+        document.getElementById("result").innerText = `${result}`;
+      })
+      .catch((error) => {
+        console.error(error);
+        document.getElementById("result").innerText = "Error fetching result.";
+      });
+  }
+
+
+/////////////////////////////////////////////////////////////////
+
+3. In migrations folder
+1_deploy.js
+
+const factorial = artifacts.require("factorial");
+module.exports = async function (deployer) {
+  await deployer.deploy(factorial);
+  const instance = await factorial.deployed();
+  console.log("Operations deployed at:", instance.address);
+};
+
+//////////////////////////////////////////////////
+
+4. type following cmd 
+
+>>>>> truffle compile
+
+open build folder -- open json file -- copy ABI and paste in into app.js
+
+>>>>> truffle migrate
+
+copy address -- paste it into app.js
+
+>>>>> truffle test -- if there is any test
+
+>>>>> npm start
+run it
 
