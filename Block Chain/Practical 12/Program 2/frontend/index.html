@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DApp-3</title>
+  </head>
+  <body>
+    <h1>Blockchain Transactions DApp</h1>
+    <h2>Send Ether:</h2>
+    <input type="text" id="toAddr" placeholder="To Address" />
+    <input type="number" id="amount" placeholder="Amount" />
+    <button onclick="send()">Send</button>
+    <h2>Check Balance:</h2>
+    <button onclick="checkBalance()">Check Balance</button>
+    <p>Your Balance is: <span id="bal"></span></p>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
