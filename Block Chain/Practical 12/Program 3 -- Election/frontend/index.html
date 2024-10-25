@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DApp-4</title>
+  </head>
+  <body>
+    <h1>Blockchain Voting DApp</h1>
+    <h2>Select Candidate to Vote</h2>
+    <button onclick="vote('Can1')">Candidate 1</button>
+    <button onclick="vote('Can2')">Candidate 2</button>
+    <button onclick="vote('Can3')">Candidate 3</button>
+    <br /><br />
+    <h2>Check Results:</h2>
+    <button onclick="checkResult()">Check Result</button>
+    <p>The Winner Is: <span id="result"></span></p>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
