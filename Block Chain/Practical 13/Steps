@@ -1,0 +1,8 @@
+Steps : 
+Download -- https://docs.ipfs.tech/install/ipfs-desktop/#windows
+1. Install -- https://github.com/ipfs/ipfs-desktop/releases/download/v0.39.0/IPFS-Desktop-Setup-0.39.0.exe
+2. Open it on desktop mode
+3. go to files and import any sample files from Your local PC
+4. there is 3 dots are present -- click -- copy CID -- share it to someone -- [CID -- QmPQn7jQjqHzin9PDi4m6QschAoQJQatREZgB1EAXK5a25]
+5. Again click on Import -- Paste CID -- Give name to file -- send
+6. File will be visible into that -- open that file
