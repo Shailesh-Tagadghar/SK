@@ -110,3 +110,18 @@ for query in queries:
     print(
         f"Query: '{query}' → Corrected Documents: {sorted(result) if result else 'No matching documents'}"
     )
+
+
+OUTPUT :
+
+---python IR_PRACTICAL2n3.py
+
+=== Spelling Correction and Document Retrieval ===
+Corrected Query: retrieval
+Query: 'retrievel' → Corrected Documents: [2, 3]    
+Corrected Query: document indexing
+Query: 'documnt indexing' → Corrected Documents: [2]
+Corrected Query: web mining
+Query: 'web minng' → Corrected Documents: [3]
+Corrected Query: structured data
+Query: 'strctured data' → Corrected Documents: [1]
