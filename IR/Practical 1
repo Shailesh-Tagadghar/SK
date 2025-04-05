@@ -1,3 +1,5 @@
+////pip install sklearn
+
 from collections import defaultdict
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -98,3 +100,18 @@ print("\n=== Vector Space Model Results ===")
 for query in vector_queries:
     result = vector_index.vector_search(query)
     print(f"Query: '{query}' → Ranked Documents: {[(doc, round(score, 4)) for doc, score in result if score > 0]}")
+
+
+Output :
+
+---python IR_PRACTICAL1.py
+
+=== Boolean Retrieval Results ===
+Query: 'retrieval AND document' → Documents: [2, 3] 
+Query: 'document OR indexing' → Documents: [2, 3, 4]
+Query: 'retrieval NOT indexing' → Documents: [3]    
+
+=== Vector Space Model Results ===
+Query: 'document retrieval' → Ranked Documents: [(3, np.float64(0.4378)), (2, np.float64(0.4256))]
+Query: 'web mining' → Ranked Documents: [(3, np.float64(0.5)), (1, np.float64(0.1954))]
+Query: 'structured data' → Ranked Documents: [(1, np.float64(0.566))]
