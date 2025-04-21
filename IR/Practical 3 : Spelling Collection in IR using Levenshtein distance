@@ -1,4 +1,4 @@
-Practical 1 : Implementation of Basic Document Retrival System Using Inverted Index
+Practical 3 : Spelling Collection in IR using levenshtein_distance
 
 from collections import defaultdict
 import numpy as np
