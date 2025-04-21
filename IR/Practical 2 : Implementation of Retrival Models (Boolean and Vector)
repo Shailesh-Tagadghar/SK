@@ -1,3 +1,5 @@
+// Practical 2 : Implementation of Retrival Models (Boolean and Vector)
+
 ////pip install sklearn
 
 from collections import defaultdict
