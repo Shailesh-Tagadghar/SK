@@ -1,3 +1,5 @@
+// Practical 5 : Text Categorization using Naive Bayes and SVM
+
 # Import necessary libraries
 import numpy as np
 from sklearn.datasets import fetch_20newsgroups # Import 20 Newsgroups dataset
