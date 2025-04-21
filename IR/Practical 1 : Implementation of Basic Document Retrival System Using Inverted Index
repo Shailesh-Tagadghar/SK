@@ -1,3 +1,5 @@
+Practical 1 : Implementation of Basic Document Retrival System Using Inverted Index
+
 from collections import defaultdict
 import numpy as np
 
