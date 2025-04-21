@@ -1,3 +1,5 @@
+//Practical 7 : Implement the Page Rank Scores for set of web pages represented as a directed graph using the Page Rank Algorithm
+
 import numpy as np
  
 def initialize_pagerank(graph):
